@@ -2,11 +2,23 @@ import React from "react";
 import Base from "./Base";
 
 function Activities() {
+  let filter = {
+    Date: ["Today", "Tomorrow", "This weekend"],
+    Categories: [
+      "Adventure",
+      "Nightlife",
+      "Tourist Attractions",
+      "Food and Drinks",
+      "Parties",
+      "Festivals",
+      "Gaming",
+    ],
+  };
   return (
     <div
       style={{ minHeight: "100%", height: "auto", backgroundColor: "#f0f0f0" }}
     >
-      <Base tab="Activities" />
+      <Base tab="Activities" filter={filter} />
     </div>
   );
 }

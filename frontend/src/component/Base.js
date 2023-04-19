@@ -8,7 +8,7 @@ function Base(props) {
         <div className="col-4">
           <h3>Filters</h3>
           <div className="h-100 py-3" style={{ backgroundColor: "#f0f0f0" }}>
-            <FilterAccordion />
+            <FilterAccordion filter={props.filter} />
           </div>
         </div>
         <div className="col-8">
