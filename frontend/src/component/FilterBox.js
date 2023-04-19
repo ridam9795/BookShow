@@ -3,7 +3,6 @@ import React, { useState } from "react";
 function FilterBox(props) {
   const [isActive, setIsActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  console.log("filterbox");
   const onActive = {
     backgroundColor: "#eb4034",
     color: "#fff",

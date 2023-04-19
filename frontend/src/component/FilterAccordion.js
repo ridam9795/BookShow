@@ -5,7 +5,7 @@ import FilterBox from "./FilterBox";
 function FilterAccordion() {
   return (
     <MDBAccordion borderless initialActive={1}>
-      <MDBAccordionItem collapseId={1} headerTitle="Date">
+      <MDBAccordionItem collapseId={1} headerTitle="Date" className="my-2">
         <div
           style={{ display: "flex", flexDirection: "row", flexFlow: "wrap" }}
         >
@@ -14,15 +14,41 @@ function FilterAccordion() {
           <FilterBox name="This Weekend" />
         </div>
       </MDBAccordionItem>
-      <MDBAccordionItem
-        collapseId={2}
-        headerTitle="Language"
-      ></MDBAccordionItem>
+      <MDBAccordionItem collapseId={2} headerTitle="Language" className="my-2">
+        <div
+          style={{ display: "flex", flexDirection: "row", flexFlow: "wrap" }}
+        >
+          <FilterBox name="Hindi" />
+          <FilterBox name="English" />
+          <FilterBox name="Kannada" />
+          <FilterBox name="Tamil" />
+          <FilterBox name="Bengali" />
+          <FilterBox name="Marathi" />
+        </div>
+      </MDBAccordionItem>
       <MDBAccordionItem
         collapseId={3}
         headerTitle="Categories"
-      ></MDBAccordionItem>
-      <MDBAccordionItem collapseId={4} headerTitle="Genre"></MDBAccordionItem>
+        className="my-2"
+      >
+        <div
+          style={{ display: "flex", flexDirection: "row", flexFlow: "wrap" }}
+        >
+          <FilterBox name="Theater" />
+          <FilterBox name="Storytelling" />
+          <FilterBox name="Improv Theater" />
+        </div>
+      </MDBAccordionItem>
+      <MDBAccordionItem collapseId={4} headerTitle="Genre" className="my-2">
+        <div
+          style={{ display: "flex", flexDirection: "row", flexFlow: "wrap" }}
+        >
+          <FilterBox name="Drama" />
+          <FilterBox name="Classic" />
+          <FilterBox name="Comedy" />
+          <FilterBox name="Fantasy" />
+        </div>
+      </MDBAccordionItem>
     </MDBAccordion>
   );
 }

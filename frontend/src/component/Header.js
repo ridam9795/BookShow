@@ -8,6 +8,8 @@ import {
   NavbarBrand,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
+import HomeCarousel from "./HomeCarousel";
+import Filter from "./Base";
 
 function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -73,14 +75,14 @@ function Header() {
           </Nav>
           <Nav className="mr-3" navbar style={{ marginLeft: "auto" }}>
             <NavItem>
-              <form class="form-group my-2 mx-5 d-flex">
+              <form className="form-group my-2 mx-5 d-flex">
                 <input
                   className="form-control mx-2 input-lg "
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button class="btn btn-success my-2 my-sm-0" type="submit">
+                <button className="btn btn-success my-2 my-sm-0" type="submit">
                   Search
                 </button>
               </form>
@@ -98,6 +100,7 @@ function Header() {
           </Nav>
         </Collapse>
       </Navbar>
+      <HomeCarousel />
     </div>
   );
 }
