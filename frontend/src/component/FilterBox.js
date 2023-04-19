@@ -6,7 +6,6 @@ function FilterBox(props) {
   const onActive = {
     backgroundColor: "#eb4034",
     color: "#fff",
-    border: "1px solid #8e918f",
     width: "auto",
     display: "inline",
     padding: "5px 8px",

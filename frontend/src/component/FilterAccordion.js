@@ -8,7 +8,7 @@ function FilterAccordion(props) {
       {Object.keys(props.filter).map((category, index) => {
         return (
           <MDBAccordionItem
-            collapseId={index}
+            collapseId={index + 1}
             headerTitle={category}
             className="my-2"
             key={index}
