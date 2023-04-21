@@ -10,7 +10,7 @@ function sports() {
     <div
       style={{ minHeight: "100%", height: "auto", backgroundColor: "#f0f0f0" }}
     >
-      <Base tab="Sports" filter={filter} />
+      <Base tab="sports" filter={filter} />
     </div>
   );
 }

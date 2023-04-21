@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import MovieCard from "./MovieCard";
+import MovieCard from "./Card";
 import Base from "./Base";
 
 axios.defaults.baseURL = "http://localhost:8000";
@@ -17,7 +17,7 @@ function Movie() {
     <div
       style={{ minHeight: "100%", height: "auto", backgroundColor: "#f0f0f0" }}
     >
-      <Base tab="Movies" filter={filter} />
+      <Base tab="movies" filter={filter} />
     </div>
   );
 }

@@ -11,7 +11,6 @@ function Events() {
       "Marathi",
       "Tamil",
       "Japanese",
-      "Malyalam",
     ],
     Genre: ["Drama", "Fantacy", "Classic", "Comedy", "Action", "Thriller"],
   };
@@ -19,7 +18,7 @@ function Events() {
     <div
       style={{ minHeight: "100%", height: "auto", backgroundColor: "#f0f0f0" }}
     >
-      <Base tab="Events" filter={filter} />
+      <Base tab="events" filter={filter} />
     </div>
   );
 }

@@ -1,18 +1,29 @@
 import React from "react";
 import FilterAccordion from "./FilterAccordion";
+import Content from "./Content";
 
 function Base(props) {
   return (
-    <div className="container" style={{ height: "100vh" }}>
-      <div className="row p-4">
-        <div className="col-4">
+    <div className="container">
+      <div className="row p-md-4">
+        <div
+          className="col-md-3 col-sm-2"
+          style={{ backgroundColor: "#f0f0f0", height: "100vh" }}
+        >
           <h3>Filters</h3>
-          <div className="h-100 py-3" style={{ backgroundColor: "#f0f0f0" }}>
+          <div className=" py-3">
             <FilterAccordion filter={props.filter} />
           </div>
         </div>
-        <div className="col-8">
-          <h3>{props.tab} in Bangalore</h3>
+        <div
+          className="col-md-9 h-100"
+          style={{ backgroundColor: "#f0f0f0", height: "100vh" }}
+        >
+          <h3>
+            {props.tab.charAt(0).toUpperCase() + props.tab.slice(1)} in
+            Bangalore
+          </h3>
+          <Content tab={props.tab} />
         </div>
       </div>
     </div>

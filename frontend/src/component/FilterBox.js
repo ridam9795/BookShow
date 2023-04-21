@@ -4,6 +4,7 @@ function FilterBox(props) {
   const [isActive, setIsActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const onActive = {
+    border: "0.1px solid #8e918f",
     backgroundColor: "#eb4034",
     color: "#fff",
     width: "auto",
@@ -17,6 +18,7 @@ function FilterBox(props) {
     display: "inline",
     padding: "5px 8px",
     color: "#eb4034",
+    cursor: "pointer",
   };
   return (
     <div style={{ margin: "10px" }}>
