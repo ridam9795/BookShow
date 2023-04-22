@@ -97,7 +97,7 @@ function Header() {
           <Nav className="mr-3" navbar style={{ marginLeft: "auto" }}>
             <NavItem>
               <form
-                className="form-group my-2 mx-5 d-flex"
+                className="form-group my-2 mx-2 d-flex"
                 action="/search/"
                 method="get"
               >
