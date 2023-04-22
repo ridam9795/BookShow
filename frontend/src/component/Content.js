@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Card";
 function Content({ tab }) {
-  axios.defaults.baseURL = "http://localhost:8000";
+  // axios.defaults.baseURL = "http://localhost:8000";
   useEffect(() => {
     fetchList();
   }, [tab]);

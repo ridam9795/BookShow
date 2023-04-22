@@ -6,6 +6,7 @@ import Sports from "./component/Sports";
 import MovieDetail from "./component/MovieDetail";
 import Events from "./component/Events";
 import Activities from "./component/Activities";
+import Search from "./component/Search";
 function App() {
   return (
     <div>
@@ -17,6 +18,7 @@ function App() {
 
         <Route path="/sports" exact element={<Sports />} />
         <Route path="/activities" exact element={<Activities />} />
+        <Route path="/search" exact element={<Search />} />
       </Routes>
     </div>
   );

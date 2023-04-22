@@ -1,11 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 function Card({ cardItem }) {
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <div className="card" style={{ width: "14rem", heigth: "500px" }}>
       <img
         className="card-img-top"
-        src={cardItem.image}
+        src={
+          location.pathname == "/search/"
+            ? "http://localhost:8000" + cardItem.image
+            : cardItem.image
+        }
         alt={cardItem.title}
         height="300px"
       />

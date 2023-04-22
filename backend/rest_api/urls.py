@@ -9,4 +9,5 @@ urlpatterns = [
     path('events/', views.EventApi.as_view(), name='events'),
     path('sports/', views.SportApi.as_view(), name='sports'),
     path('activities/', views.ActivityApi.as_view(), name='activities'),
+    path('search/', views.SearchApi.as_view(), name='search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

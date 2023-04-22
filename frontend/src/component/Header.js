@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Navbar,
   NavItem,
@@ -9,16 +9,37 @@ import {
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import HomeCarousel from "./HomeCarousel";
-import Filter from "./Base";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { SiteState } from "../Context/BookShowProvider";
 
 function Header() {
+  const { setMovies, setEvents, setSports, setActivities } = SiteState();
+
   const [isOpen, setIsOpen] = React.useState(false);
+  const search = useRef();
+  const navigate = useNavigate();
+
+  axios.defaults.baseURL = "http://localhost:8000";
   let activestyle = {
     color: "#fff",
     borderBottom: "1px solid white",
     paddingTop: "3px",
   };
-
+  const handleSearch = async () => {
+    let val = search.current.value;
+    navigate(`/search/?name=${val}`);
+    try {
+      let searched = await axios.get(`/search/?name=${val}`);
+      const { movies, events, activities, sports } = searched.data;
+      setMovies(movies);
+      setEvents(events);
+      setActivities(activities);
+      setSports(sports);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div
       style={{
@@ -75,14 +96,24 @@ function Header() {
           </Nav>
           <Nav className="mr-3" navbar style={{ marginLeft: "auto" }}>
             <NavItem>
-              <form className="form-group my-2 mx-5 d-flex">
+              <form
+                className="form-group my-2 mx-5 d-flex"
+                action="/search/"
+                method="get"
+              >
                 <input
                   className="form-control mx-2 input-lg "
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  name="name"
+                  ref={search}
                 />
-                <button className="btn btn-success my-2 my-sm-0" type="submit">
+                <button
+                  className="btn btn-success my-2 my-sm-0"
+                  type="button"
+                  onClick={handleSearch}
+                >
                   Search
                 </button>
               </form>
