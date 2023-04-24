@@ -40,6 +40,13 @@ function Header() {
       console.log(err);
     }
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      handleSearch();
+    }
+  };
   return (
     <div
       style={{
@@ -96,11 +103,7 @@ function Header() {
           </Nav>
           <Nav className="mr-3" navbar style={{ marginLeft: "auto" }}>
             <NavItem>
-              <form
-                className="form-group my-2 mx-2 d-flex"
-                action="/search/"
-                method="get"
-              >
+              <form className="form-group my-2 mx-2 d-flex">
                 <input
                   className="form-control mx-2 input-lg "
                   type="search"
@@ -108,6 +111,7 @@ function Header() {
                   aria-label="Search"
                   name="name"
                   ref={search}
+                  onKeyDown={handleKeyPress}
                 />
                 <button
                   className="btn btn-success my-2 my-sm-0"
