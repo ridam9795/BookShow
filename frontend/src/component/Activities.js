@@ -3,7 +3,6 @@ import Base from "./Base";
 
 function Activities() {
   let filter = {
-    Date: ["Today", "Tomorrow", "This weekend"],
     Categories: [
       "Adventure",
       "Nightlife",

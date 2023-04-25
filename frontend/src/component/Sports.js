@@ -3,7 +3,6 @@ import Base from "./Base";
 
 function sports() {
   let filter = {
-    Date: ["Today", "Tomorrow", "This weekend"],
     Categories: ["Cricket", "Online Games", "E sports", "Football", "Chess"],
   };
   return (

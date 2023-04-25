@@ -38,3 +38,37 @@ class SearchApi(APIView):
         activitySerializer=ActivitySerializer(activities,many=True)
         
         return Response({'Status':200,'movies':movieSerializer.data,'events':eventSerializer.data,'sports':sportSerializer.data,'activities':activitySerializer.data})
+
+
+class FilterMovieApi(APIView):
+    query_set = Movie.objects.all()
+
+    def get(self, request):
+        languages = request.GET.get('languages')
+        categories = request.GET.get('categories')
+        genre = request.GET.get('genre')
+
+        if languages:
+            languages = languages.split("|")
+            movie_language = self.query_set.filter(
+                languages__in=languages)
+        else:
+            movie_language = Movie.objects.none()
+        if categories:
+            categories = categories.split("|")
+            movie_category = self.query_set.filter(
+                category__in=categories)
+        else:
+            movie_category = Movie.objects.none()
+        if genre:
+            genre = genre.split("|")
+            movie_genre = self.query_set.filter(genre__in=genre)
+        else:
+            movie_genre = Movie.objects.none()
+
+        filteredMovies = movie_language.union(
+            movie_category, movie_genre, all=True)
+        # filteredMovies = movie_language
+        movieSerializer = MovieSerializer(filteredMovies, many=True)
+
+        return Response({"status": 200, "filteredMovieData": movieSerializer.data})
