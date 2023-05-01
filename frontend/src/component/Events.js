@@ -3,16 +3,8 @@ import Base from "./Base";
 
 function Events() {
   let filter = {
-    Languages: [
-      "Hindi",
-      "English",
-      "Kannada",
-      "Bengali",
-      "Marathi",
-      "Tamil",
-      "Japanese",
-    ],
-    Genre: ["Drama", "Fantacy", "Classic", "Comedy", "Action", "Thriller"],
+    Languages: ["Hindi", "English", "Kannada", "Bengali", "Marathi", "Tamil"],
+    Categories: ["Comedy Shows", "Workshops", "Music Shows","Online Streaming Events","Meetups","Kids"],
   };
   return (
     <div

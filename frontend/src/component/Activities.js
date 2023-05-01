@@ -3,16 +3,16 @@ import Base from "./Base";
 
 function Activities() {
   let filter = {
-    Date: ["Today", "Tomorrow", "This weekend"],
     Categories: [
       "Adventure",
-      "Nightlife",
+      "NightLife",
       "Tourist Attractions",
       "Food and Drinks",
       "Parties",
-      "Festivals",
       "Gaming",
     ],
+    Prices:["Free","0-500","501-2000","Above 2000"]
+
   };
   return (
     <div

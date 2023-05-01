@@ -3,8 +3,8 @@ import Base from "./Base";
 
 function sports() {
   let filter = {
-    Date: ["Today", "Tomorrow", "This weekend"],
     Categories: ["Cricket", "Online Games", "E sports", "Football", "Chess"],
+    Prices:["Free","0-500","501-2000","Above 2000"]
   };
   return (
     <div

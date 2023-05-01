@@ -8,7 +8,6 @@ function Search() {
 
   const location = useLocation();
   let query = queryString.parse(location.search);
-  console.log("Query", query);
   return (
     <div className="container my-5">
       <h1>
