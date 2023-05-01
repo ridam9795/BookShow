@@ -47,28 +47,25 @@ class FilterMovieApi(APIView):
         languages = request.GET.get('languages')
         categories = request.GET.get('categories')
         genre = request.GET.get('genre')
+        movie_language = Movie.objects.all()
 
         if languages:
             languages = languages.split("|")
-            movie_language = self.query_set.filter(
+            movie_language = movie_language.filter(
                 languages__in=languages)
-        else:
-            movie_language = Movie.objects.none()
+        
         if categories:
             categories = categories.split("|")
-            movie_category = self.query_set.filter(
+            movie_language = movie_language.filter(
                 category__in=categories)
-        else:
-            movie_category = Movie.objects.none()
+       
         if genre:
             genre = genre.split("|")
-            movie_genre = self.query_set.filter(genre__in=genre)
-        else:
-            movie_genre = Movie.objects.none()
-
-        filteredMovies = movie_language.union(
-            movie_category, movie_genre, all=True)
+            movie_language = movie_language.filter(genre__in=genre)
+      
+        # filteredMovies = movie_language.union(
+        #     movie_category, movie_genre, all=True)
         # filteredMovies = movie_language
-        movieSerializer = MovieSerializer(filteredMovies, many=True)
+        movieSerializer = MovieSerializer(movie_language, many=True)
 
         return Response({"status": 200, "filteredMovieData": movieSerializer.data})

@@ -3,6 +3,7 @@ import { MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import FilterBox from "./FilterBox";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { SiteState } from "../Context/BookShowProvider";
 
 function FilterAccordion(props) {
   const location = useLocation();
@@ -13,6 +14,7 @@ function FilterAccordion(props) {
     Categories: [],
     Genre: [],
   });
+  const {setMovies}=SiteState()
   useEffect(() => {
     if (location.pathname === "/") {
       let lang =
@@ -51,7 +53,8 @@ function FilterAccordion(props) {
   const filterMovies = async (query) => {
     let fetchMovie = await axios.get(`/filterMovies/?${query}`);
 
-    console.log(fetchMovie);
+    console.log(fetchMovie.data.filteredMovieData);
+    setMovies(fetchMovie.data.filteredMovieData)
   };
   return (
     <MDBAccordion borderless initialActive={0}>

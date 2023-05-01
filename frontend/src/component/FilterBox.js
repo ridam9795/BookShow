@@ -7,17 +7,30 @@ function FilterBox(props) {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("useEffect");
-    console.log(props.movieQuery);
+    // console.log("useEffect");
+    // console.log(props.movieQuery);
   }, [isActive, props.movieQuery]);
 
   const handleFilter = () => {
-    setIsActive(!isActive);
     if (location.pathname === "/") {
-      props.setMovieQuery({
-        ...props.movieQuery,
-        [props.category]: [...props.movieQuery[props.category], props.name],
-      });
+      if(!isActive){
+        setIsActive(!isActive);
+        props.setMovieQuery({
+          ...props.movieQuery,
+          [props.category]: [...props.movieQuery[props.category], props.name],
+        });
+      }else{
+        setIsActive(!isActive);
+        let alteredCategory=props.movieQuery[props.category].filter((movieName)=>{
+          return movieName!=props.name;
+        })
+        props.setMovieQuery({
+          ...props.movieQuery,
+         [props.category]:alteredCategory
+        })
+
+      }
+    
     } else if (location.pathname === "/events") {
     } else if (location.pathname === "/sports") {
     } else if (location.pathname === "/activities") {
