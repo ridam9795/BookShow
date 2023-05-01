@@ -32,8 +32,60 @@ function FilterBox(props) {
       }
     
     } else if (location.pathname === "/events") {
+      if(!isActive){
+        setIsActive(!isActive);
+        props.setEventQuery({
+          ...props.eventQuery,
+          [props.category]: [...props.eventQuery[props.category], props.name],
+        });
+      }else{
+        setIsActive(!isActive);
+        let alteredCategory=props.eventQuery[props.category].filter((eventName)=>{
+          return eventName!=props.name;
+        })
+        props.setEventQuery({
+          ...props.eventQuery,
+         [props.category]:alteredCategory
+        })
+
+      }
+    
     } else if (location.pathname === "/sports") {
+      if(!isActive){
+        setIsActive(!isActive);
+        props.setSportQuery({
+          ...props.sportQuery,
+          [props.category]: [...props.sportQuery[props.category], props.name],
+        });
+      }else{
+        setIsActive(!isActive);
+        let alteredCategory=props.sportQuery[props.category].filter((sportName)=>{
+          return sportName!=props.name;
+        })
+        props.setSportQuery({
+          ...props.sportQuery,
+         [props.category]:alteredCategory
+        })
+
+      }
     } else if (location.pathname === "/activities") {
+      if(!isActive){
+        setIsActive(!isActive);
+        props.setActivityQuery({
+          ...props.activityQuery,
+          [props.category]: [...props.activityQuery[props.category], props.name],
+        });
+      }else{
+        setIsActive(!isActive);
+        let alteredCategory=props.activityQuery[props.category].filter((activityName)=>{
+          return activityName!=props.name;
+        })
+        props.setActivityQuery({
+          ...props.activityQuery,
+         [props.category]:alteredCategory
+        })
+
+      }
     }
   };
   const onActive = {

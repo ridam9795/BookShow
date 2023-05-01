@@ -5,7 +5,7 @@ import { SiteState } from "../Context/BookShowProvider";
 
 function Content({ tab }) {
   // axios.defaults.baseURL = "http://localhost:8000";
-  const {movies}=SiteState()
+  const {movies,events,sports,activities}=SiteState()
 
   useEffect(() => {
     console.log("Content changed",movies)
@@ -15,6 +15,15 @@ function Content({ tab }) {
   useEffect(()=>{
      setCardList(movies)
   },[movies])
+  useEffect(()=>{
+    setCardList(events)
+ },[events])
+ useEffect(()=>{
+  setCardList(sports)
+},[sports])
+useEffect(()=>{
+  setCardList(activities)
+},[activities])
   const [CardList, setCardList] = useState([]);
 
   

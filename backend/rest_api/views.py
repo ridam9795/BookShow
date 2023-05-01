@@ -47,25 +47,92 @@ class FilterMovieApi(APIView):
         languages = request.GET.get('languages')
         categories = request.GET.get('categories')
         genre = request.GET.get('genre')
-        movie_language = Movie.objects.all()
+        movies = Movie.objects.all()
 
         if languages:
             languages = languages.split("|")
-            movie_language = movie_language.filter(
+            movies = movies.filter(
                 languages__in=languages)
         
         if categories:
             categories = categories.split("|")
-            movie_language = movie_language.filter(
+            movies = movies.filter(
                 category__in=categories)
        
         if genre:
             genre = genre.split("|")
-            movie_language = movie_language.filter(genre__in=genre)
+            movies = movies.filter(genre__in=genre)
       
-        # filteredMovies = movie_language.union(
-        #     movie_category, movie_genre, all=True)
-        # filteredMovies = movie_language
-        movieSerializer = MovieSerializer(movie_language, many=True)
+
+        movieSerializer = MovieSerializer(movies, many=True)
 
         return Response({"status": 200, "filteredMovieData": movieSerializer.data})
+    
+class FilterEventApi(APIView):
+    query_set = Event.objects.all()
+
+    def get(self, request):
+        languages = request.GET.get('languages')
+        categories = request.GET.get('categories')
+        events = Event.objects.all()
+
+        if languages:
+            languages = languages.split("|")
+            events = events.filter(
+                languages__in=languages)
+
+        
+        if categories:
+            categories = categories.split("|")
+            events = events.filter(category__in=categories)
+        
+
+        eventSerializer = EventSerializer(events, many=True)
+
+        return Response({"status": 200, "filteredEventData": eventSerializer.data})
+    
+class FilterSportApi(APIView):
+    query_set = Sport.objects.all()
+
+    def get(self, request):
+        prices = request.GET.get('prices')
+        categories = request.GET.get('categories')
+        sports = Sport.objects.all()
+
+        if prices:
+            prices = prices.split("|")
+            sports = sports.filter(
+                prices__in=prices)
+
+        
+        if categories:
+            categories = categories.split("|")
+            sports = sports.filter(category__in=categories)
+        
+
+        sportSerializer = SportSerializer(sports, many=True)
+
+        return Response({"status": 200, "filteredSportData": sportSerializer.data})
+    
+class FilterActivityApi(APIView):
+    query_set = Activity.objects.all()
+
+    def get(self, request):
+        prices = request.GET.get('prices')
+        categories = request.GET.get('categories')
+        activities = Activity.objects.all()
+
+        if prices:
+            prices = prices.split("|")
+            activities = activities.filter(
+                prices__in=prices)
+
+        
+        if categories:
+            categories = categories.split("|")
+            activities = activities.filter(category__in=categories)
+        
+
+        activitySerializer = ActivitySerializer(activities, many=True)
+
+        return Response({"status": 200, "filteredActivityData": activitySerializer.data})
