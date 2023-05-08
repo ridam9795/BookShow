@@ -13,6 +13,7 @@ function Registration() {
         console.log("handleRegistration",uname,pass,confirmPass)
         if(pass!==confirmPass){
             setErrorMsg("Password and confirm password do not match")
+            
             return;
         }else{
             setErrorMsg("")
