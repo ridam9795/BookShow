@@ -12,6 +12,8 @@ import HomeCarousel from "./HomeCarousel";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SiteState } from "../Context/BookShowProvider";
+import Login from "./Login";
+import Registration from "./Registration";
 
 function Header() {
   const { setMovies, setEvents, setSports, setActivities } = SiteState();
@@ -123,19 +125,49 @@ function Header() {
               </form>
             </NavItem>
             <NavItem>
-              <button type="button" className="btn btn-danger mx-2 my-2">
-                Sign In
+              <button type="button"  className="btn btn-danger my-2 mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Sign in
               </button>
+
             </NavItem>
             <NavItem>
-              <button type="button" className="btn btn-danger my-2">
-                Sign Up
+              <button type="button" className="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#registrationModal">
+                Sign up
               </button>
             </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
       <HomeCarousel />
+      
+      <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5 text-center" id="loginModalLabel">Login</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <Login/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="registrationModal" tabIndex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="registrationModalLabel">Register</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <Registration />
+            </div>
+          
+          </div>
+        </div>
+      </div>
+   
     </div>
   );
 }
