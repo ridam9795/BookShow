@@ -1,13 +1,34 @@
 import React, { useRef, useState } from 'react'
-
+import axios from 'axios';
 function Login() {
     const username=useRef()
     const password=useRef()
+    axios.defaults.baseURL = "http://localhost:8000";
+    const [invalidUserMessage,setInvalidUserMessage]=useState("")
 
     const handleLogin=async ()=>{
         const uname=username.current.value
         const pass=password.current.value
-       
+        try{
+          const loginUser=await axios.post('/login/',{
+            username:uname,
+            password:pass
+          })
+          console.log("logged in",loginUser)
+          if(loginUser.data){
+            setInvalidUserMessage("")
+            let currUser={username:uname}
+            localStorage.setItem("user",JSON.stringify(currUser))
+            window.location.reload()
+
+          }else{
+            setInvalidUserMessage("Invalid credentials")
+          }
+
+        }catch(err){
+          setInvalidUserMessage("Invalid credentials")
+          console.log("Error occurred ",err)
+        }
         
     }
 
@@ -23,7 +44,9 @@ function Login() {
     </div>
     
     <div className="text-center">
-    <button onClick={handleLogin} className="btn btn-success w-25 my-2">Login</button>
+    <p className='text-danger'>{invalidUserMessage}</p>
+<button onClick={handleLogin} className="btn btn-success w-25 my-2" >Login</button>
+   
     </div>
   </div>
   )

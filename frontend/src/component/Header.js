@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Navbar,
   NavItem,
@@ -16,8 +16,8 @@ import Login from "./Login";
 import Registration from "./Registration";
 
 function Header() {
-  const { setMovies, setEvents, setSports, setActivities } = SiteState();
-
+  const { setMovies, setEvents, setSports, setActivities ,loggedInUser,setLoggedInUser} = SiteState();
+   
   const [isOpen, setIsOpen] = React.useState(false);
   const search = useRef();
   const navigate = useNavigate();
@@ -28,6 +28,24 @@ function Header() {
     borderBottom: "1px solid white",
     paddingTop: "3px",
   };
+  useEffect(()=>{
+   verifyUser()
+  },[])
+  const verifyUser= async ()=>{
+         let currUser=JSON.parse(localStorage.getItem("user"))
+         if(currUser){
+            console.log(currUser.username)
+            setLoggedInUser(currUser.username)
+         }else{
+            setLoggedInUser("")
+         }
+  }
+  const handleLogout=()=>{
+    localStorage.removeItem("user")
+    window.location.reload()
+
+
+  }
   const handleSearch = async () => {
     let val = search.current.value;
     navigate(`/search/?name=${val}`);
@@ -124,7 +142,17 @@ function Header() {
                 </button>
               </form>
             </NavItem>
-            <NavItem>
+            {loggedInUser!=""?(<NavItem><div className="dropdown my-2">
+  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <span className="avatar avatar-md avatar-primary">
+    <span className="avatar-initials rounded-circle mx-2">{loggedInUser}</span>
+  </span>
+
+  </button>
+  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a className="dropdown-item" onClick={handleLogout} href="#">Logout</a></li>
+  </ul>
+</div></NavItem>):(<> <NavItem>
               <button type="button"  className="btn btn-danger my-2 mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
                 Sign in
               </button>
@@ -134,10 +162,13 @@ function Header() {
               <button type="button" className="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#registrationModal">
                 Sign up
               </button>
-            </NavItem>
+            </NavItem></>)}
+           
           </Nav>
         </Collapse>
       </Navbar>
+
+     
       <HomeCarousel />
       
       <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -157,7 +188,7 @@ function Header() {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="registrationModalLabel">Register</h1>
+              <h1 className="modal-title fs-5" id="registrationModalLabel" >Register</h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">

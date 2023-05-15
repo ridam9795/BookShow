@@ -2,8 +2,15 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Movie, Event,Sport,Activity
-from .serializers import MovieSerializer, EventSerializer,SportSerializer,ActivitySerializer
+from .serializers import MovieSerializer, EventSerializer,SportSerializer,ActivitySerializer,UserSerializer
 from rest_framework import generics
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 class MovieApi(generics.ListAPIView):
@@ -136,3 +143,18 @@ class FilterActivityApi(APIView):
         activitySerializer = ActivitySerializer(activities, many=True)
 
         return Response({"status": 200, "filteredActivityData": activitySerializer.data})
+
+
+class RegisterUser(APIView):
+    def post(self,request):
+        serializer=UserSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response({"status":403,"error":serializer.errors})
+        serializer.save()
+        user=User.objects.get(username=serializer.data['username'])
+        refresh = RefreshToken.for_user(user)
+
+        return Response({'status':200,'payload':serializer.data,'refresh':str(refresh),'access':str(refresh.access_token),'message':"Registration Successfull"})
+
