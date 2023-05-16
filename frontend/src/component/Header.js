@@ -31,6 +31,12 @@ function Header() {
   useEffect(()=>{
    verifyUser()
   },[])
+  const capitalizeFirst = str => {
+    if(!str){
+      return ""
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
   const verifyUser= async ()=>{
          let currUser=JSON.parse(localStorage.getItem("user"))
          if(currUser){
@@ -42,6 +48,11 @@ function Header() {
   }
   const handleLogout=()=>{
     localStorage.removeItem("user")
+    var Cookies = document.cookie.split(';');
+ 
+    // set 1 Jan, 1970 expiry for every cookies
+    for (var i = 0; i < Cookies.length; i++)
+    document.cookie = Cookies[i] + "=;expires=" + new Date(0).toUTCString();
     window.location.reload()
 
 
@@ -142,10 +153,10 @@ function Header() {
                 </button>
               </form>
             </NavItem>
-            {loggedInUser!=""?(<NavItem><div className="dropdown my-2">
-  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            {loggedInUser!=""?(<NavItem><div className="dropdown my-2 ">
+  <button className="btn btn-secondary dropdown-toggle bg-dark borden-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
   <span className="avatar avatar-md avatar-primary">
-    <span className="avatar-initials rounded-circle mx-2">{loggedInUser}</span>
+    <span className="avatar-initials rounded-circle mx-2">Hi, {capitalizeFirst(loggedInUser)}</span>
   </span>
 
   </button>

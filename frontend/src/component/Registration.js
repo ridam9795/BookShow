@@ -7,6 +7,7 @@ function Registration() {
     const username=useRef()
     const pass1=useRef()
     const pass2=useRef()
+    const fullName=useRef()
     const [errorMsg,setErrorMsg]=useState("")
     const [emailErrorMsg,setEmailErrorMsg]=useState("")
 
@@ -22,11 +23,13 @@ function Registration() {
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     };
-    const handleRegistration=async ()=>{
+    const handleRegistration=async (e)=>{
+      e.preventDefault();
+
         const uname=username.current.value
         const pass=pass1.current.value
         const confirmPass=pass2.current.value
-        console.log("handleRegistration",uname,pass,confirmPass)
+        const fname=fullName.current.value
         let validEmail=false;
         let validPass=false;
         if(!validateEmail(uname)){
@@ -48,12 +51,11 @@ function Registration() {
          if(validEmail && validPass){
           try{
             let registerUser=await axios.post('/register/',{
+              first_name:fname,
               username:uname,
               password:pass
             })
-            console.log(registerUser.data)
             if(registerUser.data.status==200){
-              console.log(registerUser.data.message)
               navigate('/')
               setIsRegistered(true)
               username.current.value=""
@@ -68,7 +70,6 @@ function Registration() {
             }else{
               setIsUserExist(true)
               setUserExistMessage("User already exists")
-              console.log("User already exist")
               setIsRegistered(false)
 
             }
@@ -85,6 +86,11 @@ function Registration() {
 
   return (
     <div className="container">
+      <form onSubmit={handleRegistration}>
+      <div className="mb-3">
+      <label  className="form-label">Full Name</label>
+      <input type="text" className="form-control" ref={fullName}  />
+    </div>
     <div className="mb-3">
       <label  className="form-label">Email address</label>
       <input type="email" className="form-control" ref={username} />
@@ -103,12 +109,13 @@ function Registration() {
     
     <div className="text-center">
     <p className='text-danger'>{userExistMessage}</p>
- <button onClick={handleRegistration}  className="btn btn-success w-25 my-2">Register</button>
+ <button type="submit" className="btn btn-success w-25 my-2">Register</button>
  <p className='text-success font-weight-bold'>{isRegistered?(<>You should successfully registered ,<p> <a type="button"  className="text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#loginModal">
   click here
               </a>
                <span> to login.</span></p></>):(<></>)}</p>
     </div>
+    </form>
   </div>
   )
 }

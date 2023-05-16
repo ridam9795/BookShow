@@ -5,8 +5,11 @@ from .models import Movie, Event,Sport,Activity
 from .serializers import MovieSerializer, EventSerializer,SportSerializer,ActivitySerializer,UserSerializer
 from rest_framework import generics
 from django.contrib.auth import authenticate,login,logout
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.middleware import csrf
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -147,6 +150,7 @@ class FilterActivityApi(APIView):
 
 class RegisterUser(APIView):
     def post(self,request):
+        print(">>>>>>>....",request.data)
         serializer=UserSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -158,3 +162,41 @@ class RegisterUser(APIView):
 
         return Response({'status':200,'payload':serializer.data,'refresh':str(refresh),'access':str(refresh.access_token),'message':"Registration Successfull"})
 
+def get_token_for_user(user):
+    refresh=RefreshToken.for_user(user)
+    name=User.objects.get(username=user.username).first_name
+
+    return {
+        'name':str(name),
+        'refresh':str(refresh),
+        'access':str(refresh.access_token)
+    }
+class LoginUser(APIView):
+    def post(self,request,format=None):
+        data=request.data
+        response=Response()
+        username=data.get('username')
+        password=data.get('password')
+        user=authenticate(username=username,password=password)
+        if user is not None:
+            if user.is_active:
+                data=get_token_for_user(user)
+
+                response.set_cookie(
+                    key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+                    value=data['access'],
+                    expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
+                    secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
+                    httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
+                    samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+                    )
+                csrf.get_token(request)
+                response.data={"Success":"Login Successfully","data":data}
+                return response
+            else:
+                return Response({"No active" : "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"Invalid" : "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+                
