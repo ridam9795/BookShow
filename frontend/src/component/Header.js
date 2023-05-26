@@ -86,7 +86,7 @@ function Header() {
     >
       <Navbar color="dark" light expand="md">
         <NavbarBrand href="/" className="text-white">
-          BOOK<span className="text-danger">SHOW</span>
+          EXPLORE<span className="text-danger">SHOW</span>
         </NavbarBrand>
         <NavbarToggler
           onClick={() => {
@@ -153,63 +153,121 @@ function Header() {
                 </button>
               </form>
             </NavItem>
-            {loggedInUser!=""?(<NavItem><div className="dropdown my-2 ">
-  <button className="btn btn-secondary dropdown-toggle bg-dark borden-none" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  <span className="avatar avatar-md avatar-primary">
-    <span className="avatar-initials rounded-circle mx-2">Hi, {capitalizeFirst(loggedInUser)}</span>
-  </span>
-
-  </button>
-  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a className="dropdown-item" onClick={handleLogout} href="#">Logout</a></li>
-  </ul>
-</div></NavItem>):(<> <NavItem>
-              <button type="button"  className="btn btn-danger my-2 mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-                Sign in
-              </button>
-
-            </NavItem>
-            <NavItem>
-              <button type="button" className="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#registrationModal">
-                Sign up
-              </button>
-            </NavItem></>)}
-           
+            {loggedInUser != "" ? (
+              <NavItem>
+                <div className="dropdown my-2 ">
+                  <button
+                    className="btn btn-secondary dropdown-toggle bg-dark borden-none"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span className="avatar avatar-md avatar-primary">
+                      <span className="avatar-initials rounded-circle mx-2">
+                        Hi, {capitalizeFirst(loggedInUser)}
+                      </span>
+                    </span>
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        onClick={handleLogout}
+                        href="#"
+                      >
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </NavItem>
+            ) : (
+              <>
+                {" "}
+                <NavItem>
+                  <button
+                    type="button"
+                    className="btn btn-danger my-2 mx-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                  >
+                    Sign in
+                  </button>
+                </NavItem>
+                <NavItem>
+                  <button
+                    type="button"
+                    className="btn btn-danger my-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#registrationModal"
+                  >
+                    Sign up
+                  </button>
+                </NavItem>
+              </>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
 
-     
       <HomeCarousel />
-      
-      <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+
+      <div
+        className="modal fade"
+        id="loginModal"
+        tabIndex="-1"
+        aria-labelledby="loginModalLabel"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5 text-center" id="loginModalLabel">Login</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h1 className="modal-title fs-5 text-center" id="loginModalLabel">
+                Login
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
-              <Login/>
+              <Login />
             </div>
           </div>
         </div>
       </div>
-      <div className="modal fade" id="registrationModal" tabIndex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+      <div
+        className="modal fade"
+        id="registrationModal"
+        tabIndex="-1"
+        aria-labelledby="registrationModalLabel"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="registrationModalLabel" >Register</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h1 className="modal-title fs-5" id="registrationModalLabel">
+                Register
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <Registration />
             </div>
-          
           </div>
         </div>
       </div>
-   
     </div>
   );
 }
