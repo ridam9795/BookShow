@@ -7,5 +7,6 @@
 
 
 Steps to run the project -
-1. Go to bookshow/backend path and activate the virtual environment then run the following command **py manage.py runserver** to start backend.
-2. Go to bookshow/frontent path and run the following command **npm start** to start frontend part.
+1. Go to bookshow/backend path and activate the virtual environment by running the command **(your environment name)/Scripts/activate**.
+2. Run the following command **py manage.py runserver** to start backend.
+3. Go to bookshow/frontend path and run the following command **npm start** to start frontend part.
