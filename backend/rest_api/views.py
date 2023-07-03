@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Movie, Event,Sport,Activity
-from .serializers import MovieSerializer, EventSerializer,SportSerializer,ActivitySerializer,UserSerializer
+from .models import Movie, Event, Sport, Activity
+from .serializers import MovieSerializer, EventSerializer, SportSerializer, ActivitySerializer, UserSerializer,ProfileSerializer
 from rest_framework import generics
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.middleware import csrf
@@ -14,6 +14,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 class MovieApi(generics.ListAPIView):
@@ -35,19 +37,20 @@ class ActivityApi(generics.ListAPIView):
     queryset = Activity.objects.all()
     serializer_class = EventSerializer
 
+
 class SearchApi(APIView):
-    def get(self,request):
-        name=request.GET.get('name')
-        movies=Movie.objects.filter(title__icontains=name)
-        movieSerializer=MovieSerializer(movies,many=True)
-        events=Event.objects.filter(title__icontains=name)
-        eventSerializer=EventSerializer(events,many=True)
-        sports=Sport.objects.filter(title__icontains=name)
-        sportSerializer=SportSerializer(sports,many=True)
-        activities=Activity.objects.filter(title__icontains=name)
-        activitySerializer=ActivitySerializer(activities,many=True)
-        
-        return Response({'Status':200,'movies':movieSerializer.data,'events':eventSerializer.data,'sports':sportSerializer.data,'activities':activitySerializer.data})
+    def get(self, request):
+        name = request.GET.get('name')
+        movies = Movie.objects.filter(title__icontains=name)
+        movieSerializer = MovieSerializer(movies, many=True)
+        events = Event.objects.filter(title__icontains=name)
+        eventSerializer = EventSerializer(events, many=True)
+        sports = Sport.objects.filter(title__icontains=name)
+        sportSerializer = SportSerializer(sports, many=True)
+        activities = Activity.objects.filter(title__icontains=name)
+        activitySerializer = ActivitySerializer(activities, many=True)
+
+        return Response({'Status': 200, 'movies': movieSerializer.data, 'events': eventSerializer.data, 'sports': sportSerializer.data, 'activities': activitySerializer.data})
 
 
 class FilterMovieApi(APIView):
@@ -63,21 +66,21 @@ class FilterMovieApi(APIView):
             languages = languages.split("|")
             movies = movies.filter(
                 languages__in=languages)
-        
+
         if categories:
             categories = categories.split("|")
             movies = movies.filter(
                 category__in=categories)
-       
+
         if genre:
             genre = genre.split("|")
             movies = movies.filter(genre__in=genre)
-      
 
         movieSerializer = MovieSerializer(movies, many=True)
 
         return Response({"status": 200, "filteredMovieData": movieSerializer.data})
-    
+
+
 class FilterEventApi(APIView):
     query_set = Event.objects.all()
 
@@ -91,16 +94,15 @@ class FilterEventApi(APIView):
             events = events.filter(
                 languages__in=languages)
 
-        
         if categories:
             categories = categories.split("|")
             events = events.filter(category__in=categories)
-        
 
         eventSerializer = EventSerializer(events, many=True)
 
         return Response({"status": 200, "filteredEventData": eventSerializer.data})
-    
+
+
 class FilterSportApi(APIView):
     query_set = Sport.objects.all()
 
@@ -114,16 +116,15 @@ class FilterSportApi(APIView):
             sports = sports.filter(
                 prices__in=prices)
 
-        
         if categories:
             categories = categories.split("|")
             sports = sports.filter(category__in=categories)
-        
 
         sportSerializer = SportSerializer(sports, many=True)
 
         return Response({"status": 200, "filteredSportData": sportSerializer.data})
-    
+
+
 class FilterActivityApi(APIView):
     query_set = Activity.objects.all()
 
@@ -137,11 +138,9 @@ class FilterActivityApi(APIView):
             activities = activities.filter(
                 prices__in=prices)
 
-        
         if categories:
             categories = categories.split("|")
             activities = activities.filter(category__in=categories)
-        
 
         activitySerializer = ActivitySerializer(activities, many=True)
 
@@ -149,38 +148,41 @@ class FilterActivityApi(APIView):
 
 
 class RegisterUser(APIView):
-    def post(self,request):
-        print(">>>>>>>....",request.data)
-        serializer=UserSerializer(data=request.data)
+    def post(self, request):
+        print(">>>>>>>....", request.data)
+        serializer = UserSerializer(data=request.data)
 
         if not serializer.is_valid():
             print(serializer.errors)
-            return Response({"status":403,"error":serializer.errors})
+            return Response({"status": 403, "error": serializer.errors})
         serializer.save()
-        user=User.objects.get(username=serializer.data['username'])
+        user = User.objects.get(username=serializer.data['username'])
         refresh = RefreshToken.for_user(user)
 
-        return Response({'status':200,'payload':serializer.data,'refresh':str(refresh),'access':str(refresh.access_token),'message':"Registration Successfull"})
+        return Response({'status': 200, 'payload': serializer.data, 'refresh': str(refresh), 'access': str(refresh.access_token), 'message': "Registration Successfull"})
+
 
 def get_token_for_user(user):
-    refresh=RefreshToken.for_user(user)
-    name=User.objects.get(username=user.username).first_name
+    refresh = RefreshToken.for_user(user)
+    name = User.objects.get(username=user.username).first_name
 
     return {
-        'name':str(name),
-        'refresh':str(refresh),
-        'access':str(refresh.access_token)
+        'name': str(name),
+        'refresh': str(refresh),
+        'access': str(refresh.access_token)
     }
+
+
 class LoginUser(APIView):
-    def post(self,request,format=None):
-        data=request.data
-        response=Response()
-        username=data.get('username')
-        password=data.get('password')
-        user=authenticate(username=username,password=password)
+    def post(self, request, format=None):
+        data = request.data
+        response = Response()
+        username = data.get('username')
+        password = data.get('password')
+        user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                data=get_token_for_user(user)
+                data = get_token_for_user(user)
 
                 response.set_cookie(
                     key=settings.SIMPLE_JWT["AUTH_COOKIE"],
@@ -189,14 +191,21 @@ class LoginUser(APIView):
                     secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
                     httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
                     samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-                    )
+                )
                 csrf.get_token(request)
-                response.data={"Success":"Login Successfully","data":data}
+                response.data = {"Success": "Login Successfully", "data": data}
                 return response
             else:
-                return Response({"No active" : "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"No active": "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
         else:
-            return Response({"Invalid" : "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"Invalid": "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
 
-
-                
+class Profile(APIView):
+    def post(self,request,format=None):
+        image=request.FILES.get("profile_image")
+        user=request.user
+        profileSerializer=ProfileSerializer(Profile,many=True)
+        return Response({"status":201,"message":"Image successfully uploaded"})
+    
+    
+        

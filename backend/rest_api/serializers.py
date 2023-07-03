@@ -1,8 +1,13 @@
 from rest_framework import serializers
-from .models import Movie, Event,Sport,Activity
+from .models import Movie, Event,Sport,Activity,Profile
 from django.contrib.auth.models import User
 from django.db import models
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Profile
+        fields="__all__"
+        
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

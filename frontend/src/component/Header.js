@@ -174,6 +174,11 @@ function Header() {
                     aria-labelledby="dropdownMenuButton1"
                   >
                     <li>
+                      <a className="dropdown-item" href="/profile">
+                        Profile
+                      </a>
+                    </li>
+                    <li>
                       <a
                         className="dropdown-item"
                         onClick={handleLogout}
@@ -214,7 +219,7 @@ function Header() {
         </Collapse>
       </Navbar>
 
-      <HomeCarousel />
+      {/* <HomeCarousel /> */}
 
       <div
         className="modal fade"

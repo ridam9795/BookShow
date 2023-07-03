@@ -1,5 +1,6 @@
 import React from "react";
 import Base from "./Base";
+import HomeCarousel from "./HomeCarousel";
 
 function Activities() {
   let filter = {
@@ -11,15 +12,21 @@ function Activities() {
       "Parties",
       "Gaming",
     ],
-    Prices:["Free","0-500","501-2000","Above 2000"]
-
+    Prices: ["Free", "0-500", "501-2000", "Above 2000"],
   };
   return (
-    <div
-      style={{ minHeight: "100%", height: "auto", backgroundColor: "#f0f0f0" }}
-    >
-      <Base tab="activities" filter={filter} />
-    </div>
+    <>
+      <HomeCarousel />
+      <div
+        style={{
+          minHeight: "100%",
+          height: "auto",
+          backgroundColor: "#f0f0f0",
+        }}
+      >
+        <Base tab="activities" filter={filter} />
+      </div>
+    </>
   );
 }
 

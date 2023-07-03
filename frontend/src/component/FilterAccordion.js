@@ -52,9 +52,11 @@ function FilterAccordion(props) {
           query += "genre=" + gen;
         }
       }
+      if (query.length !== 0) {
 
-      navigate("/?" + query);
-      filterMovies(query);
+        navigate("/?" + query);
+        filterMovies(query);
+      }
     }else if (location.pathname === "/events") {
       let lang =
       eventQuery.Languages.length > 0 ? eventQuery.Languages.join("|") : "";
@@ -71,9 +73,11 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
-    
-      navigate("/events?" + query);
-      filterEvents(query);
+      if (query.length !== 0) {
+
+        navigate("/events?" + query);
+        filterEvents(query);
+      }
     }else  if (location.pathname === "/sports") {
       let Prices =
       sportQuery.Prices.length > 0 ? sportQuery.Prices.join("|") : "";
@@ -90,9 +94,11 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
-    
-      navigate("/sports?" + query);
-      filterSports(query);
+      if (query.length !== 0) {
+
+        navigate("/sports?" + query);
+        filterSports(query);
+      }
     }else if (location.pathname === "/activities") {
       let Prices =
       activityQuery.Prices.length > 0 ? activityQuery.Prices.join("|") : "";
@@ -109,9 +115,11 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
+      if (query.length !== 0) {
+        navigate("/activities?" + query);
+        filterActivities(query);
+      }
     
-      navigate("/activities?" + query);
-      filterActivities(query);
     }
 
   },[location.pathname,movieQuery.Languages,

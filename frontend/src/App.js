@@ -7,12 +7,14 @@ import MovieDetail from "./component/MovieDetail";
 import Events from "./component/Events";
 import Activities from "./component/Activities";
 import Search from "./component/Search";
+import Profile from "./component/Profile";
 function App() {
   return (
     <div>
       <Header />
       <Routes>
         <Route path="/" exact element={<Movie />} />
+        <Route path="/profile" exact element={<Profile />} />
         <Route path="/movie/:imdbID" element={<MovieDetail />} />
         <Route path="/events" exact element={<Events />} />
 
