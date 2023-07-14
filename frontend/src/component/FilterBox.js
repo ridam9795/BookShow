@@ -24,6 +24,8 @@ function FilterBox(props) {
         let alteredCategory=props.movieQuery[props.category].filter((movieName)=>{
           return movieName!=props.name;
         })
+        console.log(alteredCategory);
+        console.log(props.movieQuery, " lang: ", props.category);
         props.setMovieQuery({
           ...props.movieQuery,
          [props.category]:alteredCategory

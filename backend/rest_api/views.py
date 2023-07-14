@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from .models import Movie, Event, Sport, Activity
 from .serializers import MovieSerializer, EventSerializer, SportSerializer, ActivitySerializer, UserSerializer,ProfileSerializer
 from rest_framework import generics
@@ -10,6 +11,7 @@ from django.contrib.auth.models import User
 from django.middleware import csrf
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
+from rest_api.utils import StandardResultsSetPagination
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -21,21 +23,43 @@ from django.utils.decorators import method_decorator
 class MovieApi(generics.ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    pagination_class=StandardResultsSetPagination
+    
+    @method_decorator(cache_page(45 * 60))
+    def get(self, *args, **kwargs):
+        print("cached content")
+        return super().get(*args, **kwargs)
+
 
 
 class EventApi(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    
+    @method_decorator(cache_page(45 * 60))
+    def get(self, *args, **kwargs):
+        print("cached content")
+        return super().get(*args, **kwargs)
 
 
 class SportApi(generics.ListAPIView):
     queryset = Sport.objects.all()
     serializer_class = EventSerializer
+    
+    @method_decorator(cache_page(45 * 60))
+    def get(self, *args, **kwargs):
+        print("cached content")
+        return super().get(*args, **kwargs)
 
 
 class ActivityApi(generics.ListAPIView):
     queryset = Activity.objects.all()
     serializer_class = EventSerializer
+    
+    @method_decorator(cache_page(45 * 60))
+    def get(self, *args, **kwargs):
+        print("cached content")
+        return super().get(*args, **kwargs)
 
 
 class SearchApi(APIView):
@@ -50,7 +74,7 @@ class SearchApi(APIView):
         activities = Activity.objects.filter(title__icontains=name)
         activitySerializer = ActivitySerializer(activities, many=True)
 
-        return Response({'Status': 200, 'movies': movieSerializer.data, 'events': eventSerializer.data, 'sports': sportSerializer.data, 'activities': activitySerializer.data})
+        return Response({'movies': movieSerializer.data, 'events': eventSerializer.data, 'sports': sportSerializer.data, 'activities': activitySerializer.data},status.HTTP_200_OK )
 
 
 class FilterMovieApi(APIView):
@@ -78,7 +102,7 @@ class FilterMovieApi(APIView):
 
         movieSerializer = MovieSerializer(movies, many=True)
 
-        return Response({"status": 200, "filteredMovieData": movieSerializer.data})
+        return Response({"filteredMovieData": movieSerializer.data},status=status.HTTP_200_OK)
 
 
 class FilterEventApi(APIView):
@@ -100,7 +124,7 @@ class FilterEventApi(APIView):
 
         eventSerializer = EventSerializer(events, many=True)
 
-        return Response({"status": 200, "filteredEventData": eventSerializer.data})
+        return Response({"filteredEventData": eventSerializer.data},status=status.HTTP_200_OK)
 
 
 class FilterSportApi(APIView):
@@ -122,7 +146,7 @@ class FilterSportApi(APIView):
 
         sportSerializer = SportSerializer(sports, many=True)
 
-        return Response({"status": 200, "filteredSportData": sportSerializer.data})
+        return Response({"filteredSportData": sportSerializer.data},status=status.HTTP_200_OK)
 
 
 class FilterActivityApi(APIView):
