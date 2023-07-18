@@ -1,6 +1,7 @@
 import React from "react";
 import Base from "./Base";
 import HomeCarousel from "./HomeCarousel";
+import Pagination from "./Pagination";
 
 function Movie() {
   let filter = {

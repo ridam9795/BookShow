@@ -8,6 +8,7 @@ import { SiteState } from "../Context/BookShowProvider";
 function FilterAccordion(props) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setCardData, setItemCount } = SiteState();
   axios.defaults.baseURL = "http://localhost:8000";
   const [movieQuery, setMovieQuery] = useState({
     Languages: [],
@@ -20,15 +21,15 @@ function FilterAccordion(props) {
   });
   const [sportQuery, setSportQuery] = useState({
     Categories: [],
-    Prices:[]
+    Prices: [],
   });
   const [activityQuery, setActivityQuery] = useState({
     Categories: [],
-    Prices:[]
+    Prices: [],
   });
-  const {setMovies,setEvents,setSports,setActivities}=SiteState()
+  const { setEvents, setSports, setActivities } = SiteState();
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === "/movies") {
       let lang =
         movieQuery.Languages.length > 0 ? movieQuery.Languages.join("|") : "";
       let query = "";
@@ -52,8 +53,7 @@ function FilterAccordion(props) {
           query += "genre=" + gen;
         }
       }
-
-      navigate("/?" + query);
+      navigate("/movies?" + query);
       filterMovies(query);
     } else if (location.pathname === "/events") {
       let lang =
@@ -71,10 +71,8 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
-      if (query.length !== 0) {
-        navigate("/events?" + query);
-        filterEvents(query);
-      }
+      navigate("/events?" + query);
+      filterEvents(query);
     } else if (location.pathname === "/sports") {
       let Prices =
         sportQuery.Prices.length > 0 ? sportQuery.Prices.join("|") : "";
@@ -91,10 +89,8 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
-      if (query.length !== 0) {
-        navigate("/sports?" + query);
-        filterSports(query);
-      }
+      navigate("/sports?" + query);
+      filterSports(query);
     } else if (location.pathname === "/activities") {
       let Prices =
         activityQuery.Prices.length > 0 ? activityQuery.Prices.join("|") : "";
@@ -113,10 +109,8 @@ function FilterAccordion(props) {
           query += "categories=" + cat;
         }
       }
-      if (query.length !== 0) {
-        navigate("/activities?" + query);
-        filterActivities(query);
-      }
+      navigate("/activities?" + query);
+      filterActivities(query);
     }
   }, [
     location.pathname,
@@ -132,24 +126,72 @@ function FilterAccordion(props) {
   ]);
 
   const filterMovies = async (query) => {
-    let fetchMovie = await axios.get(`/filterMovies/?${query}`);
+    try {
+      let fetchMovie = await axios.get(`/filterMovies/?${query}&page_size=2`);
+      if (fetchMovie.data) {
+        console.log("fetchMovie data:", fetchMovie.data);
+        const page_size = parseInt(
+          Math.ceil(fetchMovie.data.count / fetchMovie.data.results.length)
+        );
+        setItemCount(page_size);
 
-    setMovies(fetchMovie.data.filteredMovieData);
+        setCardData(fetchMovie.data);
+      }
+    } catch (err) {
+      console.log("Error occured", err);
+    }
   };
   const filterEvents = async (query) => {
-    let fetchEvents = await axios.get(`/filterEvents/?${query}`);
+    try {
+      let fetchEvents = await axios.get(`/filterEvents/?${query}&page_size=2`);
+      if (fetchEvents.data) {
+        console.log("fetchEvents data:", fetchEvents.data);
+        const page_size = parseInt(
+          Math.ceil(fetchEvents.data.count / fetchEvents.data.results.length)
+        );
+        setItemCount(page_size);
 
-    setEvents(fetchEvents.data.filteredEventData);
+        setCardData(fetchEvents.data);
+      }
+    } catch (err) {
+      console.log("Error occured", err);
+    }
   };
   const filterSports = async (query) => {
-    let fetchSports = await axios.get(`/filterSports/?${query}`);
+    try {
+      let fetchSports = await axios.get(`/filterSports/?${query}&page_size=2`);
+      if (fetchSports.data) {
+        console.log("fetchSports data:", fetchSports.data);
+        const page_size = parseInt(
+          Math.ceil(fetchSports.data.count / fetchSports.data.results.length)
+        );
+        setItemCount(page_size);
 
-    setSports(fetchSports.data.filteredSportData);
+        setCardData(fetchSports.data);
+      }
+    } catch (err) {
+      console.log("Error occured", err);
+    }
   };
   const filterActivities = async (query) => {
-    let fetchActivities = await axios.get(`/filterActivities/?${query}`);
+    try {
+      let fetchActivities = await axios.get(
+        `/filterActivities/?${query}&page_size=2`
+      );
+      if (fetchActivities.data) {
+        console.log("fetchActivities data:", fetchActivities.data);
+        const page_size = parseInt(
+          Math.ceil(
+            fetchActivities.data.count / fetchActivities.data.results.length
+          )
+        );
+        setItemCount(page_size);
 
-    setActivities(fetchActivities.data.filteredActivityData);
+        setCardData(fetchActivities.data);
+      }
+    } catch (err) {
+      console.log("Error occured", err);
+    }
   };
   return (
     <MDBAccordion borderless initialActive={0}>

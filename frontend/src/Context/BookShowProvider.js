@@ -6,7 +6,10 @@ function BookShowProvider({ children }) {
   const [events, setEvents] = useState([]);
   const [sports, setSports] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [loggedInUser,setLoggedInUser]=useState()
+  const [loggedInUser, setLoggedInUser] = useState();
+  const [CardData, setCardData] = useState({});
+  const [itemCount, setItemCount] = useState();
+
   return (
     <SiteContext.Provider
       value={{
@@ -19,8 +22,11 @@ function BookShowProvider({ children }) {
         activities,
         setActivities,
         loggedInUser,
-        setLoggedInUser
-     
+        setLoggedInUser,
+        CardData,
+        setCardData,
+        itemCount,
+        setItemCount,
       }}
     >
       {children}

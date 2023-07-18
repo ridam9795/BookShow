@@ -12,81 +12,88 @@ function FilterBox(props) {
   }, [isActive, props.movieQuery]);
 
   const handleFilter = () => {
-    if (location.pathname === "/") {
-      if(!isActive){
+    console.log("handleMovies" + location.pathname);
+    if (location.pathname === "/movies") {
+      if (!isActive) {
+        console.log("not active");
         setIsActive(!isActive);
         props.setMovieQuery({
           ...props.movieQuery,
           [props.category]: [...props.movieQuery[props.category], props.name],
         });
-      }else{
+      } else {
         setIsActive(!isActive);
-        let alteredCategory=props.movieQuery[props.category].filter((movieName)=>{
-          return movieName!=props.name;
-        })
+        let alteredCategory = props.movieQuery[props.category].filter(
+          (movieName) => {
+            return movieName != props.name;
+          }
+        );
         console.log(alteredCategory);
         console.log(props.movieQuery, " lang: ", props.category);
         props.setMovieQuery({
           ...props.movieQuery,
-         [props.category]:alteredCategory
-        })
-
+          [props.category]: alteredCategory,
+        });
       }
-    
     } else if (location.pathname === "/events") {
-      if(!isActive){
+      if (!isActive) {
         setIsActive(!isActive);
         props.setEventQuery({
           ...props.eventQuery,
           [props.category]: [...props.eventQuery[props.category], props.name],
         });
-      }else{
+      } else {
         setIsActive(!isActive);
-        let alteredCategory=props.eventQuery[props.category].filter((eventName)=>{
-          return eventName!=props.name;
-        })
+        let alteredCategory = props.eventQuery[props.category].filter(
+          (eventName) => {
+            return eventName != props.name;
+          }
+        );
         props.setEventQuery({
           ...props.eventQuery,
-         [props.category]:alteredCategory
-        })
-
+          [props.category]: alteredCategory,
+        });
       }
-    
     } else if (location.pathname === "/sports") {
-      if(!isActive){
+      if (!isActive) {
         setIsActive(!isActive);
         props.setSportQuery({
           ...props.sportQuery,
           [props.category]: [...props.sportQuery[props.category], props.name],
         });
-      }else{
+      } else {
         setIsActive(!isActive);
-        let alteredCategory=props.sportQuery[props.category].filter((sportName)=>{
-          return sportName!=props.name;
-        })
+        let alteredCategory = props.sportQuery[props.category].filter(
+          (sportName) => {
+            return sportName != props.name;
+          }
+        );
         props.setSportQuery({
           ...props.sportQuery,
-         [props.category]:alteredCategory
-        })
-
+          [props.category]: alteredCategory,
+        });
       }
     } else if (location.pathname === "/activities") {
-      if(!isActive){
+      if (!isActive) {
         setIsActive(!isActive);
         props.setActivityQuery({
           ...props.activityQuery,
-          [props.category]: [...props.activityQuery[props.category], props.name],
+          [props.category]: [
+            ...props.activityQuery[props.category],
+            props.name,
+          ],
         });
-      }else{
+      } else {
         setIsActive(!isActive);
-        let alteredCategory=props.activityQuery[props.category].filter((activityName)=>{
-          return activityName!=props.name;
-        })
+        let alteredCategory = props.activityQuery[props.category].filter(
+          (activityName) => {
+            return activityName != props.name;
+          }
+        );
         props.setActivityQuery({
           ...props.activityQuery,
-         [props.category]:alteredCategory
-        })
-
+          [props.category]: alteredCategory,
+        });
       }
     }
   };

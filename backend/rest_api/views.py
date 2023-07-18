@@ -25,6 +25,8 @@ class MovieApi(generics.ListAPIView):
     serializer_class = MovieSerializer
     pagination_class=StandardResultsSetPagination
     
+
+    
     @method_decorator(cache_page(45 * 60))
     def get(self, *args, **kwargs):
         print("cached content")
@@ -35,6 +37,8 @@ class MovieApi(generics.ListAPIView):
 class EventApi(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    pagination_class=StandardResultsSetPagination
+
     
     @method_decorator(cache_page(45 * 60))
     def get(self, *args, **kwargs):
@@ -45,6 +49,8 @@ class EventApi(generics.ListAPIView):
 class SportApi(generics.ListAPIView):
     queryset = Sport.objects.all()
     serializer_class = EventSerializer
+    pagination_class=StandardResultsSetPagination
+
     
     @method_decorator(cache_page(45 * 60))
     def get(self, *args, **kwargs):
@@ -55,6 +61,8 @@ class SportApi(generics.ListAPIView):
 class ActivityApi(generics.ListAPIView):
     queryset = Activity.objects.all()
     serializer_class = EventSerializer
+    pagination_class=StandardResultsSetPagination
+
     
     @method_decorator(cache_page(45 * 60))
     def get(self, *args, **kwargs):
@@ -77,8 +85,9 @@ class SearchApi(APIView):
         return Response({'movies': movieSerializer.data, 'events': eventSerializer.data, 'sports': sportSerializer.data, 'activities': activitySerializer.data},status.HTTP_200_OK )
 
 
-class FilterMovieApi(APIView):
+class FilterMovieApi(APIView,StandardResultsSetPagination):
     query_set = Movie.objects.all()
+
 
     def get(self, request):
         languages = request.GET.get('languages')
@@ -99,13 +108,15 @@ class FilterMovieApi(APIView):
         if genre:
             genre = genre.split("|")
             movies = movies.filter(genre__in=genre)
+        results = self.paginate_queryset(movies, request, view=self)
 
-        movieSerializer = MovieSerializer(movies, many=True)
+        print(results)
+        movieSerializer = MovieSerializer(results, many=True)
 
-        return Response({"filteredMovieData": movieSerializer.data},status=status.HTTP_200_OK)
+        return  self.get_paginated_response(movieSerializer.data)
 
 
-class FilterEventApi(APIView):
+class FilterEventApi(APIView,StandardResultsSetPagination):
     query_set = Event.objects.all()
 
     def get(self, request):
@@ -121,13 +132,14 @@ class FilterEventApi(APIView):
         if categories:
             categories = categories.split("|")
             events = events.filter(category__in=categories)
+            
+        results = self.paginate_queryset(events, request, view=self)
+        eventSerializer = EventSerializer(results, many=True)
+        return  self.get_paginated_response(eventSerializer.data)
 
-        eventSerializer = EventSerializer(events, many=True)
-
-        return Response({"filteredEventData": eventSerializer.data},status=status.HTTP_200_OK)
 
 
-class FilterSportApi(APIView):
+class FilterSportApi(APIView,StandardResultsSetPagination):
     query_set = Sport.objects.all()
 
     def get(self, request):
@@ -143,13 +155,13 @@ class FilterSportApi(APIView):
         if categories:
             categories = categories.split("|")
             sports = sports.filter(category__in=categories)
+        results = self.paginate_queryset(sports, request, view=self)
+        movieSerializer = MovieSerializer(results, many=True)
 
-        sportSerializer = SportSerializer(sports, many=True)
-
-        return Response({"filteredSportData": sportSerializer.data},status=status.HTTP_200_OK)
+        return  self.get_paginated_response(movieSerializer.data)
 
 
-class FilterActivityApi(APIView):
+class FilterActivityApi(APIView,StandardResultsSetPagination):
     query_set = Activity.objects.all()
 
     def get(self, request):
@@ -165,10 +177,11 @@ class FilterActivityApi(APIView):
         if categories:
             categories = categories.split("|")
             activities = activities.filter(category__in=categories)
+        
+        results = self.paginate_queryset(activities, request, view=self)
+        activitySerializer = ActivitySerializer(results, many=True)
 
-        activitySerializer = ActivitySerializer(activities, many=True)
-
-        return Response({"status": 200, "filteredActivityData": activitySerializer.data})
+        return  self.get_paginated_response(activitySerializer.data)
 
 
 class RegisterUser(APIView):

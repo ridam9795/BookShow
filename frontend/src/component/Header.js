@@ -98,7 +98,7 @@ function Header() {
             <NavItem>
               <NavLink
                 style={({ isActive }) => (isActive ? activestyle : undefined)}
-                to="/"
+                to="/movies"
                 className="navitem mx-2 text-decoration-none inactivelink"
               >
                 Movies

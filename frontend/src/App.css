@@ -5,3 +5,11 @@
 .inactivelink:hover{
     color:#afadb3;
 }
+.disableButton{
+     pointer-events: none !important;
+      color: #afadb3 !important ;
+}
+.page-link{
+     cursor: pointer;
+
+}
