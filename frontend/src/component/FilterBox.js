@@ -1,102 +1,128 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 function FilterBox(props) {
   const [isActive, setIsActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-
   useEffect(() => {
-    // console.log("useEffect");
-    // console.log(props.movieQuery);
-  }, [isActive, props.movieQuery]);
+    fetchFilteredData();
+  }, [searchParams.size]);
+  const fetchFilteredData = () => {
+    if (searchParams.size) {
+      let languages = searchParams.get("languages") || "";
+      let categories = searchParams.get("categories") || "";
+      let genre = searchParams.get("genre") || "";
+      let prices = searchParams.get("prices") || "";
 
-  const handleFilter = () => {
-    console.log("handleMovies" + location.pathname);
-    if (location.pathname === "/movies") {
-      if (!isActive) {
-        console.log("not active");
-        setIsActive(!isActive);
-        props.setMovieQuery({
-          ...props.movieQuery,
-          [props.category]: [...props.movieQuery[props.category], props.name],
-        });
+      const currQuery = [
+        ...languages.split("|"),
+        ...categories.split("|"),
+        ...genre.split("|"),
+        ...prices.split("|"),
+      ];
+      if (currQuery.includes(props.name)) {
+        setIsActive(true);
       } else {
-        setIsActive(!isActive);
-        let alteredCategory = props.movieQuery[props.category].filter(
-          (movieName) => {
-            return movieName != props.name;
-          }
-        );
-        console.log(alteredCategory);
-        console.log(props.movieQuery, " lang: ", props.category);
-        props.setMovieQuery({
-          ...props.movieQuery,
-          [props.category]: alteredCategory,
-        });
+        setIsActive(false);
       }
-    } else if (location.pathname === "/events") {
-      if (!isActive) {
-        setIsActive(!isActive);
-        props.setEventQuery({
-          ...props.eventQuery,
-          [props.category]: [...props.eventQuery[props.category], props.name],
-        });
-      } else {
-        setIsActive(!isActive);
-        let alteredCategory = props.eventQuery[props.category].filter(
-          (eventName) => {
-            return eventName != props.name;
-          }
-        );
-        props.setEventQuery({
-          ...props.eventQuery,
-          [props.category]: alteredCategory,
-        });
-      }
-    } else if (location.pathname === "/sports") {
-      if (!isActive) {
-        setIsActive(!isActive);
-        props.setSportQuery({
-          ...props.sportQuery,
-          [props.category]: [...props.sportQuery[props.category], props.name],
-        });
-      } else {
-        setIsActive(!isActive);
-        let alteredCategory = props.sportQuery[props.category].filter(
-          (sportName) => {
-            return sportName != props.name;
-          }
-        );
-        props.setSportQuery({
-          ...props.sportQuery,
-          [props.category]: alteredCategory,
-        });
-      }
-    } else if (location.pathname === "/activities") {
-      if (!isActive) {
-        setIsActive(!isActive);
-        props.setActivityQuery({
-          ...props.activityQuery,
-          [props.category]: [
-            ...props.activityQuery[props.category],
-            props.name,
-          ],
-        });
-      } else {
-        setIsActive(!isActive);
-        let alteredCategory = props.activityQuery[props.category].filter(
-          (activityName) => {
-            return activityName != props.name;
-          }
-        );
-        props.setActivityQuery({
-          ...props.activityQuery,
-          [props.category]: alteredCategory,
-        });
-      }
+    } else {
+      setIsActive(false);
     }
   };
+
+  const filterData = () => {
+    let languages = searchParams.get("languages") || "";
+    let categories = searchParams.get("categories") || "";
+    let genre = searchParams.get("genre") || "";
+    let prices = searchParams.get("prices") || "";
+
+    let lang, cat, gen, price;
+    if (props.category == "Languages") {
+      if (!languages.includes(props.name)) {
+        lang = languages == "" ? props.name : languages + "|" + props.name;
+      } else {
+        lang = languages.split("|");
+        lang = lang.filter((lang) => {
+          return lang != props.name;
+        });
+        lang = lang.join("|");
+      }
+    } else {
+      lang = languages.split("|");
+      lang = lang.filter((lang) => {
+        return lang != props.name;
+      });
+      lang = lang.join("|");
+    }
+    props.setLangQuery(lang);
+
+    if (props.category == "Categories") {
+      if (!categories.includes(props.name)) {
+        cat = categories == "" ? props.name : categories + "|" + props.name;
+      } else {
+        cat = categories.split("|");
+        cat = cat.filter((lang) => {
+          return lang != props.name;
+        });
+        cat = cat.join("|");
+      }
+    } else {
+      cat = categories.split("|");
+      cat = cat.filter((lang) => {
+        return lang != props.name;
+      });
+      cat = cat.join("|");
+    }
+    props.setCatQuery(cat);
+    if (props.category == "Genre") {
+      if (!genre.includes(props.name)) {
+        gen = genre == "" ? props.name : genre + "|" + props.name;
+      } else {
+        gen = genre.split("|");
+        gen = gen.filter((lang) => {
+          return lang != props.name;
+        });
+        gen = gen.join("|");
+      }
+    } else {
+      gen = genre.split("|");
+      gen = gen.filter((lang) => {
+        return lang != props.name;
+      });
+      gen = gen.join("|");
+    }
+    props.setGenQuery(gen);
+    if (props.category == "Prices") {
+      if (!prices.includes(props.name)) {
+        price = prices == "" ? props.name : prices + "|" + props.name;
+      } else {
+        price = prices.split("|");
+        price = price.filter((lang) => {
+          return lang != props.name;
+        });
+        price = price.join("|");
+      }
+    } else {
+      price = prices.split("|");
+      price = price.filter((lang) => {
+        return lang != props.name;
+      });
+      price = price.join("|");
+    }
+    props.setPriceQuery(price);
+    setSearchParams({
+      ...(lang != undefined && { languages: lang }),
+      ...(cat != undefined && { categories: cat }),
+      ...(gen != undefined && { genre: gen }),
+      ...(price != undefined && { prices: price }),
+      page_size: 2,
+    });
+
+    setIsActive(!isActive);
+  };
+
   const onActive = {
     border: "0.1px solid #8e918f",
     backgroundColor: "#eb4034",
@@ -118,7 +144,7 @@ function FilterBox(props) {
     <div style={{ margin: "10px" }}>
       <p
         style={isActive || isHover ? onActive : onInActive}
-        onClick={handleFilter}
+        onClick={filterData}
         onMouseOver={() => setIsHover(true)}
         onMouseOut={() => setIsHover(false)}
       >

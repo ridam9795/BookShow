@@ -7,50 +7,48 @@ import { useSearchParams } from "react-router-dom";
 
 function Content({ tab }) {
   // axios.defaults.baseURL = "http://localhost:8000";
-  const {
-    movies,
-    events,
-    sports,
-    activities,
-    CardData,
-    setCardData,
-    itemCount,
-    setItemCount,
-  } = SiteState();
+  const { movies, CardData, setCardData, itemCount, setItemCount } =
+    SiteState();
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log("Card data ", CardData);
   useEffect(() => {
-    console.log("Content changed data >>>>>>>>>>>>>>>>>>>>>>", CardData);
     fetchList();
-  }, [tab]);
+  }, []);
 
   // useEffect(() => {
   //   setCardData(movies);
   // }, [movies]);
-  useEffect(() => {
-    setCardData(events);
-  }, [events]);
-  useEffect(() => {
-    setCardData(sports);
-  }, [sports]);
-  useEffect(() => {
-    setCardData(activities);
-  }, [activities]);
+  // useEffect(() => {
+  //   setCardData(events);
+  // }, [events]);
+  // useEffect(() => {
+  //   setCardData(sports);
+  // }, [sports]);
+  // useEffect(() => {
+  //   setCardData(activities);
+  // }, [activities]);
 
   const fetchList = async () => {
     try {
-      console.log("tab", tab, "param: >>>>>>>>>>", searchParams.get("page"));
       const currPage =
         searchParams.get("page") == null ? 1 : searchParams.get("page");
-
-      let list = await axios.get(`/${tab}/?page=${currPage}&page_size=2`);
-      if (list) {
-        console.log("content data: ", list.data);
-        const page_size = parseInt(
-          Math.ceil(list.data.count / list.data.results.length)
-        );
-        setItemCount(page_size);
-        setCardData(list.data);
+      const page_size = searchParams.get("page_size");
+      const languages = searchParams.get("languages");
+      const categories = searchParams.get("categories");
+      const price = searchParams.get("prices");
+      if (
+        page_size == null &&
+        languages == null &&
+        categories == null &&
+        price == null
+      ) {
+        let list = await axios.get(`/${tab}/?page=${currPage}&page_size=2`);
+        if (list) {
+          const page_size = parseInt(
+            Math.ceil(list.data.count / list.data.results.length)
+          );
+          setItemCount(page_size);
+          setCardData(list.data);
+        }
       }
     } catch (err) {
       console.log(err);

@@ -7,7 +7,7 @@ import {
   Nav,
   NavbarBrand,
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import HomeCarousel from "./HomeCarousel";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,18 @@ import Login from "./Login";
 import Registration from "./Registration";
 
 function Header() {
-  const { setMovies, setEvents, setSports, setActivities ,loggedInUser,setLoggedInUser} = SiteState();
-   
+  const {
+    setMovies,
+    setEvents,
+    setSports,
+    setActivities,
+    loggedInUser,
+    setLoggedInUser,
+    setCardData,
+    setItemCount,
+  } = SiteState();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [isOpen, setIsOpen] = React.useState(false);
   const search = useRef();
   const navigate = useNavigate();
@@ -28,35 +38,32 @@ function Header() {
     borderBottom: "1px solid white",
     paddingTop: "3px",
   };
-  useEffect(()=>{
-   verifyUser()
-  },[])
-  const capitalizeFirst = str => {
-    if(!str){
-      return ""
+  useEffect(() => {
+    verifyUser();
+  }, []);
+  const capitalizeFirst = (str) => {
+    if (!str) {
+      return "";
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-  const verifyUser= async ()=>{
-         let currUser=JSON.parse(localStorage.getItem("user"))
-         if(currUser){
-            console.log(currUser.username)
-            setLoggedInUser(currUser.username)
-         }else{
-            setLoggedInUser("")
-         }
-  }
-  const handleLogout=()=>{
-    localStorage.removeItem("user")
-    var Cookies = document.cookie.split(';');
- 
+  const verifyUser = async () => {
+    let currUser = JSON.parse(localStorage.getItem("user"));
+    if (currUser) {
+      setLoggedInUser(currUser.username);
+    } else {
+      setLoggedInUser("");
+    }
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    var Cookies = document.cookie.split(";");
+
     // set 1 Jan, 1970 expiry for every cookies
     for (var i = 0; i < Cookies.length; i++)
-    document.cookie = Cookies[i] + "=;expires=" + new Date(0).toUTCString();
-    window.location.reload()
-
-
-  }
+      document.cookie = Cookies[i] + "=;expires=" + new Date(0).toUTCString();
+    window.location.reload();
+  };
   const handleSearch = async () => {
     let val = search.current.value;
     navigate(`/search/?name=${val}`);
@@ -78,6 +85,21 @@ function Header() {
       handleSearch();
     }
   };
+  const fetchList = async (tab) => {
+    try {
+      let list = await axios.get(`/${tab}/?page_size=2`);
+      if (list) {
+        const page_size = parseInt(
+          Math.ceil(list.data.count / list.data.results.length)
+        );
+        setItemCount(page_size);
+        setCardData(list.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div
       style={{
@@ -100,6 +122,7 @@ function Header() {
                 style={({ isActive }) => (isActive ? activestyle : undefined)}
                 to="/movies"
                 className="navitem mx-2 text-decoration-none inactivelink"
+                onClick={() => fetchList("movies")}
               >
                 Movies
               </NavLink>
@@ -109,6 +132,7 @@ function Header() {
                 style={({ isActive }) => (isActive ? activestyle : undefined)}
                 to="/events"
                 className="navitem mx-2 text-decoration-none inactivelink"
+                onClick={() => fetchList("events")}
               >
                 Events
               </NavLink>
@@ -118,6 +142,7 @@ function Header() {
                 style={({ isActive }) => (isActive ? activestyle : undefined)}
                 to="/sports"
                 className="navitem mx-2 text-decoration-none inactivelink"
+                onClick={() => fetchList("sports")}
               >
                 Sports
               </NavLink>
@@ -127,6 +152,7 @@ function Header() {
                 style={({ isActive }) => (isActive ? activestyle : undefined)}
                 to="/activities"
                 className="navitem mx-2 text-decoration-none inactivelink"
+                onClick={() => fetchList("activities")}
               >
                 Activities
               </NavLink>

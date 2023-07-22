@@ -2,7 +2,6 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 function Card({ cardItem }) {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="card" style={{ width: "14rem", heigth: "500px" }}>
       <img
