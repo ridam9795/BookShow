@@ -12,6 +12,7 @@ from django.middleware import csrf
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_api.utils import StandardResultsSetPagination
+from rest_framework import filters
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -70,9 +71,11 @@ class ActivityApi(generics.ListAPIView):
         return super().get(*args, **kwargs)
 
 
-class SearchApi(APIView):
+    
+    
+class SearchApi(APIView,StandardResultsSetPagination):
     def get(self, request):
-        name = request.GET.get('name')
+        name = request.GET.get('search')
         movies = Movie.objects.filter(title__icontains=name)
         movieSerializer = MovieSerializer(movies, many=True)
         events = Event.objects.filter(title__icontains=name)
