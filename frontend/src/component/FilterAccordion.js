@@ -73,7 +73,6 @@ function FilterAccordion(props) {
         query += "page_size=" + page_size;
       }
     }
-    console.log("updateCard called with  query", query);
     if (location.pathname === "/movies") {
       navigate("/movies?" + query);
       filterCards("filterMovies", query);
@@ -93,7 +92,6 @@ function FilterAccordion(props) {
       if (query) {
         let fetchCards = await axios.get(`/${filterParam}/?${query}`);
         if (fetchCards.data) {
-          console.log("fetchCards data:", fetchCards.data);
           const page_size = parseInt(Math.ceil(fetchCards.data.count / 2));
           setItemCount(page_size);
 

@@ -66,9 +66,10 @@ function Header() {
   };
   const handleSearch = async () => {
     let val = search.current.value;
-    navigate(`/search/?name=${val}`);
+
+    navigate(`/search/?search=${val}`);
     try {
-      let searched = await axios.get(`/search/?name=${val}`);
+      let searched = await axios.get(`/search/?search=${val}`);
       const { movies, events, activities, sports } = searched.data;
       setMovies(movies);
       setEvents(events);

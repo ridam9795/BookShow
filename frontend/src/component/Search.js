@@ -1,18 +1,18 @@
 import React from "react";
 import queryString from "query-string";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { SiteState } from "../Context/BookShowProvider";
 import Card from "./Card";
 function Search() {
   const { movies, events, sports, activities } = SiteState();
 
-  const location = useLocation();
-  let query = queryString.parse(location.search);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("search");
   return (
     <div className="container my-5">
       <h1>
-        SEARCH RESULTS FOR :{" "}
-        <span className="text-uppercase text-success">{query.name}</span>
+        SEARCH RESULTS FOR :
+        <span className="text-uppercase text-success">{search}</span>
       </h1>
       <div className="row">
         {movies?.map((movie, index) => {
