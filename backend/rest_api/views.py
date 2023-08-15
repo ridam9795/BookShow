@@ -5,73 +5,35 @@ from rest_framework import status
 from .models import Movie, Event, Sport, Activity
 from .serializers import MovieSerializer, EventSerializer, SportSerializer, ActivitySerializer, UserSerializer,ProfileSerializer
 from rest_framework import generics
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.middleware import csrf
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_api.utils import StandardResultsSetPagination
-from rest_framework import filters
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 
 
 class MovieApi(generics.ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     pagination_class=StandardResultsSetPagination
-    
-
-    
-    @method_decorator(cache_page(45 * 60))
-    def get(self, *args, **kwargs):
-        print("cached content")
-        return super().get(*args, **kwargs)
-
-
 
 class EventApi(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class=StandardResultsSetPagination
 
-    
-    @method_decorator(cache_page(45 * 60))
-    def get(self, *args, **kwargs):
-        print("cached content")
-        return super().get(*args, **kwargs)
-
-
 class SportApi(generics.ListAPIView):
     queryset = Sport.objects.all()
     serializer_class = EventSerializer
     pagination_class=StandardResultsSetPagination
-
-    
-    @method_decorator(cache_page(45 * 60))
-    def get(self, *args, **kwargs):
-        print("cached content")
-        return super().get(*args, **kwargs)
-
 
 class ActivityApi(generics.ListAPIView):
     queryset = Activity.objects.all()
     serializer_class = EventSerializer
     pagination_class=StandardResultsSetPagination
 
-    
-    @method_decorator(cache_page(45 * 60))
-    def get(self, *args, **kwargs):
-        print("cached content")
-        return super().get(*args, **kwargs)
-
-
-    
     
 class SearchApi(APIView,StandardResultsSetPagination):
     def get(self, request):

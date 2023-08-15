@@ -14,19 +14,6 @@ function Content({ tab }) {
     fetchList();
   }, []);
 
-  // useEffect(() => {
-  //   setCardData(movies);
-  // }, [movies]);
-  // useEffect(() => {
-  //   setCardData(events);
-  // }, [events]);
-  // useEffect(() => {
-  //   setCardData(sports);
-  // }, [sports]);
-  // useEffect(() => {
-  //   setCardData(activities);
-  // }, [activities]);
-
   const fetchList = async () => {
     try {
       const currPage =
@@ -42,6 +29,7 @@ function Content({ tab }) {
         price == null
       ) {
         let list = await axios.get(`/${tab}/?page=${currPage}&page_size=2`);
+        console.log("List>>> ", list);
         if (list) {
           const page_size = parseInt(
             Math.ceil(list.data.count / list.data.results.length)
