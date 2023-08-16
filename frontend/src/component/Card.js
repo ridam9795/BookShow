@@ -2,14 +2,18 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 function Card({ cardItem }) {
   const location = useLocation();
+  const api_end_point =
+    process.env.REACT_APP_MODE == "development"
+      ? "http://localhost:8000"
+      : process.env.REACT_APP_API_URL;
   return (
     <div className="card" style={{ width: "14rem", heigth: "500px" }}>
       <img
         className="card-img-top"
         src={
-          location.pathname == "/search/"
-            ? "http://localhost:8000" + cardItem.image
-            : cardItem.image
+          cardItem.image.substring(0, 4) == "http"
+            ? cardItem.image
+            : api_end_point + cardItem.image
         }
         alt={cardItem.title}
         height="300px"

@@ -2,8 +2,12 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 function Login() {
     const username=useRef()
-    const password=useRef()
-    axios.defaults.baseURL = "http://localhost:8000";
+  const password = useRef();
+  const api_end_point =
+    process.env.REACT_APP_MODE == "development"
+      ? "http://localhost:8000"
+      : process.env.REACT_APP_API_URL;
+  axios.defaults.baseURL = api_end_point;
     const [invalidUserMessage,setInvalidUserMessage]=useState("")
 
     const handleLogin=async(e)=>{

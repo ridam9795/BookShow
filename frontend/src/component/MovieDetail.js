@@ -4,7 +4,11 @@ import axios from "axios";
 
 function MovieDetail() {
   const { imdbID } = useParams();
-  axios.defaults.baseURL = "http://localhost:8000";
+  const api_end_point =
+    process.env.REACT_APP_MODE == "development"
+      ? "http://localhost:8000"
+      : process.env.REACT_APP_API_URL;
+  axios.defaults.baseURL = api_end_point;
   const [currMovie, setCurrMovie] = useState({});
   const [notFound, setNotFound] = useState("");
 
