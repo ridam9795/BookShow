@@ -5,9 +5,9 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 User=get_user_model()
 Language_Choice = (('Hindi', 'Hindi'), ('English', 'English'),
-                   ('Kannada', 'Kannada'), ('Bengali', 'Bengali'), ('Marathi', 'Marathi'), ('Tamil', 'Tamil'))
+                   ('Kannada', 'Kannada'), ('Bengali', 'Bengali'), ('Marathi', 'Marathi'), ('Tamil', 'Tamil'),('Telugu','Telugu'))
 Movie_Genre_Choice = (('Drama', 'Drama'), ('Fantacy', 'Fantacy'),
-                      ('Classic', 'Classic'), ('Comedy', 'Comedy'))
+                      ('Classic', 'Classic'), ('Comedy', 'Comedy'),('Action','Action'),('Adventure','Adventure'))
 Movie_Categories = (('Theater', 'Theater'),
                     ('Story Telling', 'Story Telling'), ('Imporv Theater', 'Imporv Theater'))
 Event_Categories = (('Comedy Shows', 'Comedy Shows'),

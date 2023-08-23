@@ -68,28 +68,29 @@ function Pagination({ page_size, page, prev, next, tab }) {
       let list;
       if (location.pathname === "/movies") {
         list = await axios.get(
-          `/filterMovies/?${query}&page=${index + 1}&page_size=2`
+          `/filterMovies/?${query}&page=${index + 1}&page_size=3`
         );
       } else if (location.pathname === "/events") {
         list = await axios.get(
-          `/filterEvents/?${query}&page=${index + 1}&page_size=2`
+          `/filterEvents/?${query}&page=${index + 1}&page_size=3`
         );
       } else if (location.pathname === "/sports") {
         list = await axios.get(
-          `/filterSports/?${query}&page=${index + 1}&page_size=2`
+          `/filterSports/?${query}&page=${index + 1}&page_size=3`
         );
       } else if (location.pathname === "/activities") {
         list = await axios.get(
-          `/filterActivities/?${query}&page=${index + 1}&page_size=2`
+          `/filterActivities/?${query}&page=${index + 1}&page_size=3`
         );
       }
 
       if (list) {
-        const page_size = parseInt(Math.ceil(list.data.count / 2));
+        const page_size = parseInt(Math.ceil(list.data.count / 3));
+        console.log(list);
         setItemCount(page_size);
         setCardData(list.data);
 
-        navigate(`/${tab}?${query}&page=${index + 1}&page_size=2`);
+        navigate(`/${tab}?${query}&page=${index + 1}&page_size=3`);
       }
     } catch (err) {
       console.log(err);

@@ -34,11 +34,9 @@ function Content({ tab }) {
          categories == null &&
          price == null
        ) {
-         let list = await axios.get(`/${tab}/?page=${currPage}&page_size=2`);
+         let list = await axios.get(`/${tab}/?page=${currPage}&page_size=3`);
          if (list) {
-           const page_size = parseInt(
-             Math.ceil(list.data.count / list.data.results.length)
-           );
+           const page_size = parseInt(Math.ceil(list.data.count / 3));
            setItemCount(page_size);
            setCardData(list.data);
            setLoading(false);

@@ -117,7 +117,7 @@ function FilterBox(props) {
       ...(cat != undefined && { categories: cat }),
       ...(gen != undefined && { genre: gen }),
       ...(price != undefined && { prices: price }),
-      page_size: 2,
+      page_size: 3,
     });
 
     setIsActive(!isActive);
