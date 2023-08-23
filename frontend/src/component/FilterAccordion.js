@@ -96,7 +96,7 @@ function FilterAccordion(props) {
      if (query) {
        let fetchCards = await axios.get(`${filterParam}/?${query}`);
        if (fetchCards.data) {
-         const page_size = parseInt(Math.ceil(fetchCards.data.count / 2));
+         const page_size = parseInt(Math.ceil(fetchCards.data.count / 3));
          setItemCount(page_size);
 
          setCardData(fetchCards.data);
