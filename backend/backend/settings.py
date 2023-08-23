@@ -14,6 +14,8 @@ from pathlib import Path
 import environ
 import dj_database_url
 import os
+import cloudinary_storage
+
 
 
 # Initialise environment variables
@@ -92,7 +94,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_api',
     'corsheaders',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'cloudinary',
+    'cloudinary_storage'
+    
 
 ]
 
@@ -203,6 +208,13 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
+CLOUDINARY_STORAGE= {
+    'CLOUD_NAME':'dcnypp0h4',
+    'API_KEY':'432745285663356',
+    'API_SECRET':'cneEUKE-HnIEfC1TqlMszPD8cO8'
+        
+}
 
+DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
