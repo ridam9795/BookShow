@@ -13,7 +13,7 @@ Movie_Categories = (('Theater', 'Theater'),
 Event_Categories = (('Comedy Shows', 'Comedy Shows'),
                     ('Workshops', 'Workshops'), ('Music Shows', 'Music Shows'), ('Online Streaming Events', 'Online Streaming Events'), ('Meetups', 'Meetups'), ('Kids', 'Kids'))
 Sport_Categories = (('Cricket', 'Cricket'),
-                    ('Online Games', 'Online Games'), ('E Sports', 'E Sports'), ('Chess', 'Chess'), ('Football', 'Football'))
+                    ('Online Games', 'Online Games'), ('E Sports', 'E Sports'), ('Chess', 'Chess'), ('Football', 'Football'),('Others','Others'))
 Prices = (('Free', 'Free'), ('0-500', '0-500'),
           ('501-2000', '501-2000'), ('Above 2000', 'Above 2000'))
 Activity_Categories = (('Adventure', 'Adventure'),

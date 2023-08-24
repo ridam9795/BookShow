@@ -92,7 +92,7 @@ function Header() {
   const fetchList = async (tab) => {
     try {
       console.log("api>>>>> " + api_end_point + " ");
-      let list = await axios.get(`/${tab}/?page_size=2`);
+      let list = await axios.get(`/${tab}/?page_size=3`);
       if (list) {
         const page_size = parseInt(
           Math.ceil(list.data.count / list.data.results.length)
