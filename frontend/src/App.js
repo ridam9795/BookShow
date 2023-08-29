@@ -8,6 +8,7 @@ import Events from "./component/Events";
 import Activities from "./component/Activities";
 import Search from "./component/Search";
 import Profile from "./component/Profile";
+import ShowDetail from "./component/ShowDetail";
 function App() {
   return (
     <div>
@@ -16,10 +17,13 @@ function App() {
         <Route path="/" exact element={<Navigate to="/movies" />} />
         <Route path="/movies" exact element={<Movie />} />
         <Route path="/profile" exact element={<Profile />} />
-        <Route path="/movie/:imdbID" element={<MovieDetail />} />
+        <Route path="/movie/:showID" element={<MovieDetail />} />
         <Route path="/events" exact element={<Events />} />
+        <Route path="/event/:showID" element={<ShowDetail />} />
         <Route path="/sports" exact element={<Sports />} />
+        <Route path="/sport/:showID" element={<ShowDetail />} />
         <Route path="/activities" exact element={<Activities />} />
+        <Route path="/activity/:showID" element={<ShowDetail />} />
         <Route path="/search" exact element={<Search />} />
       </Routes>
     </div>

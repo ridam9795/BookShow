@@ -12,6 +12,9 @@ from django.middleware import csrf
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_api.utils import StandardResultsSetPagination
+import requests
+from rest_framework.decorators import api_view
+
 
 
 class MovieApi(generics.ListAPIView):
@@ -209,5 +212,37 @@ class Profile(APIView):
         profileSerializer=ProfileSerializer(Profile,many=True)
         return Response({"status":201,"message":"Image successfully uploaded"})
     
+@api_view(['GET','POST'])
+def MovieDetail(request,showID):
+    url="https://www.omdbapi.com/?i="+showID+"&apikey=8157e43a"
+    try:
+        resp=requests.get(url)
+        movie_data=resp.json()    
+        return Response({'status':200,'data':movie_data})
+    except Exception as e:
+        print("Unable to fetch api ",e)
+        return Response({'status':500,'error':'Unable to fetch api'})
     
-        
+@api_view(['GET','POST'])
+def VerifyShowDetail(request,showID):
+    show=request.data.get("show")
+    if show=="event":
+        try:
+            currShow=Event.objects.get(showID=showID)
+        except:
+            currShow={}
+    if show=="activity":
+        try:
+            currShow=Activity.objects.get(showID=showID)
+        except:
+            currShow={}
+    if show=='sport':
+        try:
+            currShow=Sport.objects.get(showID=showID)
+        except:
+            currShow={}
+    # print("currShow ",currShow.desc)
+    if currShow :
+        return Response({"message":"valid data","description":currShow.desc},status=status.HTTP_200_OK)
+    else:
+        return Response({"message":"not found"},status=status.HTTP_404_NOT_FOUND)

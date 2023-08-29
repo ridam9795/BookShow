@@ -21,6 +21,7 @@ Activity_Categories = (('Adventure', 'Adventure'),
 
 
 class Generic(models.Model):
+    showID=models.CharField(null=True,blank=True,max_length=256)
     title = models.CharField(max_length=500)
     desc = models.TextField()
     languages = models.CharField(

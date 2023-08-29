@@ -21,5 +21,8 @@ urlpatterns = [
     path('login/', views.LoginUser.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name="verify_token"),
-    path('register/', views.RegisterUser.as_view(), name="registerUser")
+    path('register/', views.RegisterUser.as_view(), name="registerUser"),
+    path('movieDetail/<str:showID>',views.MovieDetail,name="movieDetail"),
+    path('verifyShowDetail/<str:showID>',views.VerifyShowDetail,name="verifyShowDetail"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

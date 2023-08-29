@@ -11,7 +11,6 @@ function Content({ tab }) {
        ? "http://localhost:8000"
        : process.env.REACT_APP_API_URL;
    axios.defaults.baseURL = api_end_point;
-   console.log("API URL" + process.env.REACT_APP_API_URL);
    const { movies, CardData, setCardData, itemCount, setItemCount } =
      SiteState();
    const [searchParams, setSearchParams] = useSearchParams();

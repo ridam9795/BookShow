@@ -86,7 +86,6 @@ function Pagination({ page_size, page, prev, next, tab }) {
 
       if (list) {
         const page_size = parseInt(Math.ceil(list.data.count / 3));
-        console.log(list);
         setItemCount(page_size);
         setCardData(list.data);
 
