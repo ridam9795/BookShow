@@ -40,6 +40,8 @@ DEV_ENV=os.environ.get("MODE")=='development'
 
 DB_CONNECTION=os.environ.get("DB_CONNECTION")
 
+REDIS_LOCATION=os.environ.get("REDIS_LOCATION")
+
 ALLOWED_HOSTS = ["*"]
 from datetime import timedelta
 
@@ -220,7 +222,7 @@ CACHE_TTL = 60 * 1
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "rediss://red-cjq51n8jbais738glbf0:PPZ64vE3p4LhFLDcKvuGXec0chTcO0gp@oregon-redis.render.com:6379",
+        "LOCATION": REDIS_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },

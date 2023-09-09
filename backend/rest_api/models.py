@@ -18,11 +18,13 @@ Prices = (('Free', 'Free'), ('0-500', '0-500'),
           ('501-2000', '501-2000'), ('Above 2000', 'Above 2000'))
 Activity_Categories = (('Adventure', 'Adventure'),
                        ('Tourist Attractions', 'Tourist Attractions'), ('NightLife', 'NightLife'), ('Food and Drinks', 'Food and Drinks'), ('Parties', 'Parties'), ('Gaming', 'Gaming'))
-
+Type = (('movie', 'movie'), ('sport', 'sport'),
+          ('event', 'event'), ('activity', 'activity'))
 
 class Generic(models.Model):
     showID=models.CharField(null=True,blank=True,max_length=256)
     title = models.CharField(max_length=500)
+    type=models.CharField(choices=Type,max_length=128,default='movie' )
     desc = models.TextField()
     languages = models.CharField(
         choices=Language_Choice, max_length=128, default='Hindi')

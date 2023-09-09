@@ -28,9 +28,7 @@ function Card({ cardItem }) {
         <p className="card-title">{cardItem.desc.slice(0, 20) + "..."}</p>
         <p className="card-title">{cardItem.language}</p>
         <Link
-          to={`/${detailPathName[location.pathname.substring(1)]}/${
-            cardItem.showID
-          }`}
+          to={`/${cardItem.type}/${cardItem.showID}`}
           className="btn btn-primary w-100"
         >
           View Detail
